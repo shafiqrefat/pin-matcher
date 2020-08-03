@@ -18,40 +18,39 @@
             </div>
             <div class="col-md-6">
                 <div class="input-section half-width">
-                    <input class="form-control" type="text">
+                    <input id="showRandomNumber" class="form-control text-center" type="text">
                     <div class="numbers">
                         <div class="calc-body">
                             <div class="calc-button-row">
-                              <div class="button">7</div>
-                              <div class="button">8</div>
-                              <div class="button">9</div>
+                              <div class="button" onclick="showValue('7')">7</div>
+                              <div class="button" onclick="showValue('8')">8</div>
+                              <div class="button" onclick="showValue('9')">9</div>
                             </div>
                             <div class="calc-button-row">
-                              <div class="button">4</div>
-                              <div class="button">5</div>
-                              <div class="button">6</div>
+                              <div class="button" onclick="showValue('4')">4</div>
+                              <div class="button" onclick="showValue('5')">5</div>
+                              <div class="button" onclick="showValue('6')">6</div>
                             </div>
                             <div class="calc-button-row">
-                              <div class="button">1</div>
-                              <div class="button">2</div>
-                              <div class="button">3</div>
+                              <div class="button" onclick="showValue('1')">1</div>
+                              <div class="button" onclick="showValue('2')">2</div>
+                              <div class="button" onclick="showValue('3')">3</div>
                             </div>
                             <div class="calc-button-row">
-                                <div class="button"><</div>
-                                <div class="button">0</div>
-                                <div class="button">C</div>
+                                <div class="button" onclick="showValue('<')"><</div>
+                                <div class="button" onclick="showValue('0')">0</div>
+                                <div class="button" onclick="showValue('C')">C</div>
                             </div>
                             <div>
-                                <button type="submit" class="submit-btn">Submit</button>
-                                <p class="action-left">3 try left</p>
+                                <button id="submit-value" type="submit" class="submit-btn">Submit</button>
                             </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="notify-section">
-            <p class="notify">❌ Pin Didn't Match, Please try again</p>
-            <p class="notify">✅ Pin Matched... Secret door is opening for you</p>
+            <p id="failed" class="notify">❌ Pin Didn't Match, Please try again</p>
+            <p id="success" class="notify">✅ Pin Matched... Secret door is opening for you</p>
         </div>
     </div>
 
@@ -61,6 +60,46 @@
             const generateRandomNumber = Math.random() * (10**4 - 1001) + 1000;
             const roundRandomNumber = Math.round (generateRandomNumber);
             document.getElementById("random-number").value = roundRandomNumber;
+        })
+
+
+        var randomNumber = document.getElementById("showRandomNumber");
+        function showValue (number) {
+            switch (number){
+                case 'C': 
+                    showRandomNumber.value = "";
+                    break;
+                case '<':
+                    showRandomNumber.value = showRandomNumber.value.substr( 0 , showRandomNumber.value.length - 1);
+                    break;
+                default:
+                showRandomNumber.value = showRandomNumber.value + number;  
+            }
+        }
+
+        const submitButton = document.getElementById("submit-value").addEventListener("click",function(){
+            var randomNumber = document.getElementById("random-number").value;
+            var showRandomNumber = document.getElementById("showRandomNumber").value;
+
+            if (randomNumber == showRandomNumber){
+                var success = document.getElementById("success");
+                success.style.display = "block" ;
+                var fail = document.getElementById("failed");
+                fail.style.display = "none";
+
+                document.getElementById("random-number").value = "" ;
+                document.getElementById("showRandomNumber").value = "" ;
+                
+            }
+            else{
+                var fail = document.getElementById("failed");
+                fail.style.display = "block";
+                var success = document.getElementById("success");
+                success.style.display = "none" ;
+
+                document.getElementById("random-number").value = "" ;
+                document.getElementById("showRandomNumber").value = "" ;
+            }  
         })
     </script>
 </body>
